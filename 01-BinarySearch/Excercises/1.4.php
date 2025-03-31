@@ -9,12 +9,18 @@ book!)
 function linearSearch($contacts, $target)
 {
     $start_time = microtime(true);
+    $start_memory = memory_get_usage();
     foreach($contacts as $name => $number){
         if($target == $number){
             $end_time = microtime(true);
+            $end_memory = memory_get_peak_usage(true);
+
+            $memory_uses = ($end_memory - $start_memory);
+            $memory_uses_kb = $memory_uses / 1024;
             $ms_time = ($end_time - $start_time) * 1000;
 
-            return "Found : The Number ($number) of People is : $name, Run time: ". number_format($ms_time, 3)." ms";
+            return "Found : The Number ($number) of People is : $name, Run time: ". number_format($ms_time, 3)." ms, \n".
+            "Memory Used: " . number_format($memory_uses_kb, 3) . " KB";
         }
     }
 
