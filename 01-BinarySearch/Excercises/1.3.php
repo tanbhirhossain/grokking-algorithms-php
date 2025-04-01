@@ -20,6 +20,8 @@ function linearSearch($contacts, $target)
 
 function binarySearch($contacts, $target)
 {
+    ksort($contacts); // Ensure sorted keys before binary search
+
     $keys = array_keys($contacts);
     $low = 0;
     $high = count($keys) - 1;
@@ -32,7 +34,7 @@ function binarySearch($contacts, $target)
 
         if($target == $mid_key){
             $time_end = microtime(true);
-            $runtime_ms = ($time_start - $time_end) * 1000;
+            $runtime_ms = ($time_end - $time_start) * 1000;
             return "Found: The Phone No of $mid_key is $contacts[$mid_key], Runtime: " . number_format($runtime_ms, 3) . " ms";
  
         }elseif($target > $mid_key){
@@ -43,7 +45,7 @@ function binarySearch($contacts, $target)
         }
     }
 
-    return "Not Found";
+    return "Not Found, Runtime: " . number_format((microtime(true) - $time_start) * 1000, 3) . " ms";
 }
 
 
@@ -147,7 +149,6 @@ $contacts = [
     "Zaatthew Perry" => "+8801799009002"
 ];
 
-ksort($contacts);
 
 print(linearSearch($contacts, target: "Zaatthew Perry"));
 print("\n");

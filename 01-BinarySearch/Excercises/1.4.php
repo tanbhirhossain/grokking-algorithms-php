@@ -27,6 +27,41 @@ function linearSearch($contacts, $target)
     return "Not Found";
 }
 
+function binarySearch($contracts, $target)
+{
+    $start_time = microtime(true);
+    $start_memory = memory_get_usage();
+
+    $phones = array_values($contracts);  
+
+    $low = 0;
+    $high = count($phones) - 1;
+
+    while($low <= $high){
+        $mid = (int)(($low + $high) / 2);
+        $phone = $phones[$mid];
+
+        if($phone == $target){
+            $name = array_search($phone, $contracts);
+
+            $end_time = microtime(true);
+            $end_memory = memory_get_peak_usage(true);
+            $ms_time = ($end_time - $start_time) * 1000;
+            $used_memory = ($end_memory - $start_memory) / 1024;
+
+            return "Found : The Number ($phone) of People is : $name, Run time: ". number_format($ms_time, 3)." ms, \n".
+            "Memory Used: " . number_format($used_memory, 3) . " KB";       
+        
+        }elseif($target > $phone){
+            $low = $mid + 1;
+        }else{
+            $high = $mid - 1;
+        }
+    }
+
+    return "Not Found";
+}
+
 
 
 $contacts = [
@@ -126,5 +161,9 @@ $contacts = [
 ];
 
 asort($contacts);
+print("#################### Linear Search ########################\n");
 
 print(linearSearch($contacts, target: "+8801989009002"));
+print("\n#################### Binary Search ########################\n");
+
+print(binarySearch($contacts, target: "+8801989009002"));
